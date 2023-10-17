@@ -1315,7 +1315,7 @@ function Edit-PlatformINIFile
 
     # Found the Platform name, add Dual Accounts to it
     $platformName = $platformNameArray[0].TrimEnd()
-    $iniContent = $iniContent.Replace($platformName, $platformName + " Dual Account")
+    $iniContent = $iniContent.Replace("PolicyName=$platformName", "PolicyName=$platformName Dual Account")
 
     $iniContent | Out-File $fileEntries[0].FullName -Force -Encoding ASCII
 }
