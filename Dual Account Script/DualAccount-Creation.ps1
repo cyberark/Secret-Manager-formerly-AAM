@@ -1084,7 +1084,15 @@ function Export-Platform
 {
     param ($platformID)
 
-    $exportPath = "$( Join-Path -Path $ENV:Temp -ChildPath $platformID ).zip"
+    # Ensure Temp is set
+    if (-not $ENV:Temp -or -not (Test-Path $ENV:Temp)) {
+        $ENV:Temp = "/tmp"
+        Write-LogMessage -Type Info -Msg "Environment variable 'Temp' was not set. Defaulting to '/tmp'."
+    }
+
+    # Construct export path
+    $exportPath = "$(Join-Path -Path $ENV:Temp -ChildPath $platformID).zip"
+    Write-LogMessage -Type Debug -Msg "Export Path: $exportPath"
 
     $creds = New-Object -TypeName System.Management.Automation.PSCredential($global:ParamsObj.PASUserName, $global:ParamsObj.PASPassword)
 
